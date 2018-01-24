@@ -2,11 +2,11 @@
 
 [![License: GPL-3.0](https://img.shields.io/badge/license-GPL--3.0-yellow.svg)](https://opensource.org/licenses/GPL-3.0)
 
-Exercise build client server with Golang using GRPC.
+Exercise build client and server communication with gRPC using Golang.
 
 ## How To Run
 
-Firstly, Install [Golang](https://golang.org/) and [gRPC](https://grpc.io/), follow the instructions in there.
+Firstly, Install [Golang](https://golang.org/) and [gRPC](https://grpc.io/), follow the instructions in there. 
 and then run `./gen.sh` for generate `gRPC` files.
 
 In this folder have three folder
