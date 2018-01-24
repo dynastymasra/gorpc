@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "io.dynastymasra.gorpc";
+option java_outer_classname = "Gorpc";
+
+package contract;
+
+message Person {
+    string id = 1;
+    string first_name = 2;
+    string middle_name = 3;
+    string last_name = 4;
+    string email = 5;
+    string phone = 6;
+    Gender gender = 7;
+}
+
+message Request {
+    string id = 1;
+}
+
+enum Gender {
+    MALE = 0;
+    FEMALE = 1;
+}
+
+service HelloService {
+    rpc Hello (Request) returns (Person);
+}
