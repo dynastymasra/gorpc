@@ -1,23 +1,32 @@
 syntax = "proto3";
 
-option java_multiple_files = true;
-option java_package = "io.dynastymasra.gorpc";
-option java_outer_classname = "Gorpc";
-
 package contract;
+
+message Filter {
+    string name = 1;
+}
 
 message Person {
     string id = 1;
-    string first_name = 2;
-    string middle_name = 3;
-    string last_name = 4;
-    string email = 5;
-    string phone = 6;
-    Gender gender = 7;
+    string name = 2;
+    repeated Email email = 3;
+    string phone = 4;
+    Address address = 5;
+    Gender gender = 6;
 }
 
-message Request {
-    string id = 1;
+message Empty{}
+
+message Email {
+    string email = 1;
+    bool is_primary = 2;
+}
+
+message Address {
+    string street = 1;
+    string city = 2;
+    string state = 3;
+    string postal_code = 4;
 }
 
 enum Gender {
@@ -25,6 +34,8 @@ enum Gender {
     FEMALE = 1;
 }
 
-service HelloService {
-    rpc Hello (Request) returns (Person);
+service PersonService {
+    rpc CreatePerson (Person) returns (Person);
+    rpc FilterPerson(Filter) returns (stream Person);
+    rpc GetAllPerson(Empty) returns (stream Person);
 }

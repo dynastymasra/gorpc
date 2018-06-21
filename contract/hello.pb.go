@@ -8,8 +8,11 @@ It is generated from these files:
 	hello.proto
 
 It has these top-level messages:
+	Filter
 	Person
-	Request
+	Empty
+	Email
+	Address
 */
 package contract
 
@@ -54,20 +57,35 @@ func (x Gender) String() string {
 }
 func (Gender) EnumDescriptor() ([]byte, []int) { return fileDescriptor0, []int{0} }
 
+type Filter struct {
+	Name string `protobuf:"bytes,1,opt,name=name" json:"name,omitempty"`
+}
+
+func (m *Filter) Reset()                    { *m = Filter{} }
+func (m *Filter) String() string            { return proto.CompactTextString(m) }
+func (*Filter) ProtoMessage()               {}
+func (*Filter) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{0} }
+
+func (m *Filter) GetName() string {
+	if m != nil {
+		return m.Name
+	}
+	return ""
+}
+
 type Person struct {
-	Id         string `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
-	FirstName  string `protobuf:"bytes,2,opt,name=first_name,json=firstName" json:"first_name,omitempty"`
-	MiddleName string `protobuf:"bytes,3,opt,name=middle_name,json=middleName" json:"middle_name,omitempty"`
-	LastName   string `protobuf:"bytes,4,opt,name=last_name,json=lastName" json:"last_name,omitempty"`
-	Email      string `protobuf:"bytes,5,opt,name=email" json:"email,omitempty"`
-	Phone      string `protobuf:"bytes,6,opt,name=phone" json:"phone,omitempty"`
-	Gender     Gender `protobuf:"varint,7,opt,name=gender,enum=contract.Gender" json:"gender,omitempty"`
+	Id      string   `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
+	Name    string   `protobuf:"bytes,2,opt,name=name" json:"name,omitempty"`
+	Email   []*Email `protobuf:"bytes,3,rep,name=email" json:"email,omitempty"`
+	Phone   string   `protobuf:"bytes,4,opt,name=phone" json:"phone,omitempty"`
+	Address *Address `protobuf:"bytes,5,opt,name=address" json:"address,omitempty"`
+	Gender  Gender   `protobuf:"varint,6,opt,name=gender,enum=contract.Gender" json:"gender,omitempty"`
 }
 
 func (m *Person) Reset()                    { *m = Person{} }
 func (m *Person) String() string            { return proto.CompactTextString(m) }
 func (*Person) ProtoMessage()               {}
-func (*Person) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{0} }
+func (*Person) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{1} }
 
 func (m *Person) GetId() string {
 	if m != nil {
@@ -76,32 +94,18 @@ func (m *Person) GetId() string {
 	return ""
 }
 
-func (m *Person) GetFirstName() string {
+func (m *Person) GetName() string {
 	if m != nil {
-		return m.FirstName
+		return m.Name
 	}
 	return ""
 }
 
-func (m *Person) GetMiddleName() string {
-	if m != nil {
-		return m.MiddleName
-	}
-	return ""
-}
-
-func (m *Person) GetLastName() string {
-	if m != nil {
-		return m.LastName
-	}
-	return ""
-}
-
-func (m *Person) GetEmail() string {
+func (m *Person) GetEmail() []*Email {
 	if m != nil {
 		return m.Email
 	}
-	return ""
+	return nil
 }
 
 func (m *Person) GetPhone() string {
@@ -111,6 +115,13 @@ func (m *Person) GetPhone() string {
 	return ""
 }
 
+func (m *Person) GetAddress() *Address {
+	if m != nil {
+		return m.Address
+	}
+	return nil
+}
+
 func (m *Person) GetGender() Gender {
 	if m != nil {
 		return m.Gender
@@ -118,25 +129,84 @@ func (m *Person) GetGender() Gender {
 	return Gender_MALE
 }
 
-type Request struct {
-	Id string `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
+type Empty struct {
 }
 
-func (m *Request) Reset()                    { *m = Request{} }
-func (m *Request) String() string            { return proto.CompactTextString(m) }
-func (*Request) ProtoMessage()               {}
-func (*Request) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{1} }
+func (m *Empty) Reset()                    { *m = Empty{} }
+func (m *Empty) String() string            { return proto.CompactTextString(m) }
+func (*Empty) ProtoMessage()               {}
+func (*Empty) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{2} }
 
-func (m *Request) GetId() string {
+type Email struct {
+	Email     string `protobuf:"bytes,1,opt,name=email" json:"email,omitempty"`
+	IsPrimary bool   `protobuf:"varint,2,opt,name=is_primary,json=isPrimary" json:"is_primary,omitempty"`
+}
+
+func (m *Email) Reset()                    { *m = Email{} }
+func (m *Email) String() string            { return proto.CompactTextString(m) }
+func (*Email) ProtoMessage()               {}
+func (*Email) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{3} }
+
+func (m *Email) GetEmail() string {
 	if m != nil {
-		return m.Id
+		return m.Email
+	}
+	return ""
+}
+
+func (m *Email) GetIsPrimary() bool {
+	if m != nil {
+		return m.IsPrimary
+	}
+	return false
+}
+
+type Address struct {
+	Street     string `protobuf:"bytes,1,opt,name=street" json:"street,omitempty"`
+	City       string `protobuf:"bytes,2,opt,name=city" json:"city,omitempty"`
+	State      string `protobuf:"bytes,3,opt,name=state" json:"state,omitempty"`
+	PostalCode string `protobuf:"bytes,4,opt,name=postal_code,json=postalCode" json:"postal_code,omitempty"`
+}
+
+func (m *Address) Reset()                    { *m = Address{} }
+func (m *Address) String() string            { return proto.CompactTextString(m) }
+func (*Address) ProtoMessage()               {}
+func (*Address) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{4} }
+
+func (m *Address) GetStreet() string {
+	if m != nil {
+		return m.Street
+	}
+	return ""
+}
+
+func (m *Address) GetCity() string {
+	if m != nil {
+		return m.City
+	}
+	return ""
+}
+
+func (m *Address) GetState() string {
+	if m != nil {
+		return m.State
+	}
+	return ""
+}
+
+func (m *Address) GetPostalCode() string {
+	if m != nil {
+		return m.PostalCode
 	}
 	return ""
 }
 
 func init() {
+	proto.RegisterType((*Filter)(nil), "contract.Filter")
 	proto.RegisterType((*Person)(nil), "contract.Person")
-	proto.RegisterType((*Request)(nil), "contract.Request")
+	proto.RegisterType((*Empty)(nil), "contract.Empty")
+	proto.RegisterType((*Email)(nil), "contract.Email")
+	proto.RegisterType((*Address)(nil), "contract.Address")
 	proto.RegisterEnum("contract.Gender", Gender_name, Gender_value)
 }
 
@@ -148,90 +218,217 @@ var _ grpc.ClientConn
 // is compatible with the grpc package it is being compiled against.
 const _ = grpc.SupportPackageIsVersion4
 
-// Client API for HelloService service
+// Client API for PersonService service
 
-type HelloServiceClient interface {
-	Hello(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Person, error)
+type PersonServiceClient interface {
+	CreatePerson(ctx context.Context, in *Person, opts ...grpc.CallOption) (*Person, error)
+	FilterPerson(ctx context.Context, in *Filter, opts ...grpc.CallOption) (PersonService_FilterPersonClient, error)
+	GetAllPerson(ctx context.Context, in *Empty, opts ...grpc.CallOption) (PersonService_GetAllPersonClient, error)
 }
 
-type helloServiceClient struct {
+type personServiceClient struct {
 	cc *grpc.ClientConn
 }
 
-func NewHelloServiceClient(cc *grpc.ClientConn) HelloServiceClient {
-	return &helloServiceClient{cc}
+func NewPersonServiceClient(cc *grpc.ClientConn) PersonServiceClient {
+	return &personServiceClient{cc}
 }
 
-func (c *helloServiceClient) Hello(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Person, error) {
+func (c *personServiceClient) CreatePerson(ctx context.Context, in *Person, opts ...grpc.CallOption) (*Person, error) {
 	out := new(Person)
-	err := grpc.Invoke(ctx, "/contract.HelloService/Hello", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/contract.PersonService/CreatePerson", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// Server API for HelloService service
-
-type HelloServiceServer interface {
-	Hello(context.Context, *Request) (*Person, error)
+func (c *personServiceClient) FilterPerson(ctx context.Context, in *Filter, opts ...grpc.CallOption) (PersonService_FilterPersonClient, error) {
+	stream, err := grpc.NewClientStream(ctx, &_PersonService_serviceDesc.Streams[0], c.cc, "/contract.PersonService/FilterPerson", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &personServiceFilterPersonClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
 }
 
-func RegisterHelloServiceServer(s *grpc.Server, srv HelloServiceServer) {
-	s.RegisterService(&_HelloService_serviceDesc, srv)
+type PersonService_FilterPersonClient interface {
+	Recv() (*Person, error)
+	grpc.ClientStream
 }
 
-func _HelloService_Hello_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Request)
+type personServiceFilterPersonClient struct {
+	grpc.ClientStream
+}
+
+func (x *personServiceFilterPersonClient) Recv() (*Person, error) {
+	m := new(Person)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func (c *personServiceClient) GetAllPerson(ctx context.Context, in *Empty, opts ...grpc.CallOption) (PersonService_GetAllPersonClient, error) {
+	stream, err := grpc.NewClientStream(ctx, &_PersonService_serviceDesc.Streams[1], c.cc, "/contract.PersonService/GetAllPerson", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &personServiceGetAllPersonClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type PersonService_GetAllPersonClient interface {
+	Recv() (*Person, error)
+	grpc.ClientStream
+}
+
+type personServiceGetAllPersonClient struct {
+	grpc.ClientStream
+}
+
+func (x *personServiceGetAllPersonClient) Recv() (*Person, error) {
+	m := new(Person)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+// Server API for PersonService service
+
+type PersonServiceServer interface {
+	CreatePerson(context.Context, *Person) (*Person, error)
+	FilterPerson(*Filter, PersonService_FilterPersonServer) error
+	GetAllPerson(*Empty, PersonService_GetAllPersonServer) error
+}
+
+func RegisterPersonServiceServer(s *grpc.Server, srv PersonServiceServer) {
+	s.RegisterService(&_PersonService_serviceDesc, srv)
+}
+
+func _PersonService_CreatePerson_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Person)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(HelloServiceServer).Hello(ctx, in)
+		return srv.(PersonServiceServer).CreatePerson(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/contract.HelloService/Hello",
+		FullMethod: "/contract.PersonService/CreatePerson",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(HelloServiceServer).Hello(ctx, req.(*Request))
+		return srv.(PersonServiceServer).CreatePerson(ctx, req.(*Person))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-var _HelloService_serviceDesc = grpc.ServiceDesc{
-	ServiceName: "contract.HelloService",
-	HandlerType: (*HelloServiceServer)(nil),
+func _PersonService_FilterPerson_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(Filter)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(PersonServiceServer).FilterPerson(m, &personServiceFilterPersonServer{stream})
+}
+
+type PersonService_FilterPersonServer interface {
+	Send(*Person) error
+	grpc.ServerStream
+}
+
+type personServiceFilterPersonServer struct {
+	grpc.ServerStream
+}
+
+func (x *personServiceFilterPersonServer) Send(m *Person) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func _PersonService_GetAllPerson_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(Empty)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(PersonServiceServer).GetAllPerson(m, &personServiceGetAllPersonServer{stream})
+}
+
+type PersonService_GetAllPersonServer interface {
+	Send(*Person) error
+	grpc.ServerStream
+}
+
+type personServiceGetAllPersonServer struct {
+	grpc.ServerStream
+}
+
+func (x *personServiceGetAllPersonServer) Send(m *Person) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+var _PersonService_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "contract.PersonService",
+	HandlerType: (*PersonServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "Hello",
-			Handler:    _HelloService_Hello_Handler,
+			MethodName: "CreatePerson",
+			Handler:    _PersonService_CreatePerson_Handler,
 		},
 	},
-	Streams:  []grpc.StreamDesc{},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "FilterPerson",
+			Handler:       _PersonService_FilterPerson_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "GetAllPerson",
+			Handler:       _PersonService_GetAllPerson_Handler,
+			ServerStreams: true,
+		},
+	},
 	Metadata: "hello.proto",
 }
 
 func init() { proto.RegisterFile("hello.proto", fileDescriptor0) }
 
 var fileDescriptor0 = []byte{
-	// 281 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x5c, 0x90, 0x41, 0x4b, 0xc3, 0x30,
-	0x14, 0xc7, 0xcd, 0x5c, 0xb3, 0xed, 0x4d, 0xc6, 0x0c, 0x0a, 0x55, 0x51, 0xcb, 0x4e, 0x45, 0xa4,
-	0x87, 0x79, 0xf5, 0xe2, 0x60, 0xce, 0x83, 0xca, 0xa8, 0x1f, 0x40, 0x62, 0xf3, 0xdc, 0x02, 0x6d,
-	0x52, 0xd3, 0x28, 0xec, 0x33, 0xfa, 0xa5, 0xa4, 0x2f, 0x1b, 0x8a, 0xa7, 0xe4, 0xfd, 0x7e, 0x2f,
-	0xc9, 0xcb, 0x1f, 0x86, 0x6b, 0x2c, 0x4b, 0x9b, 0xd5, 0xce, 0x7a, 0x2b, 0xfa, 0x85, 0x35, 0xde,
-	0xc9, 0xc2, 0x4f, 0xbe, 0x19, 0xf0, 0x25, 0xba, 0xc6, 0x1a, 0x31, 0x82, 0x8e, 0x56, 0x31, 0x4b,
-	0x58, 0x3a, 0xc8, 0x3b, 0x5a, 0x89, 0x73, 0x80, 0x77, 0xed, 0x1a, 0xff, 0x6a, 0x64, 0x85, 0x71,
-	0x87, 0xf8, 0x80, 0xc8, 0xb3, 0xac, 0x50, 0x5c, 0xc2, 0xb0, 0xd2, 0x4a, 0x95, 0x18, 0xfc, 0x3e,
-	0x79, 0x08, 0x88, 0x1a, 0xce, 0x60, 0x50, 0xca, 0xdd, 0xf1, 0x2e, 0xe9, 0x7e, 0x0b, 0x48, 0x1e,
-	0x41, 0x84, 0x95, 0xd4, 0x65, 0x1c, 0x91, 0x08, 0x45, 0x4b, 0xeb, 0xb5, 0x35, 0x18, 0xf3, 0x40,
-	0xa9, 0x10, 0x29, 0xf0, 0x15, 0x1a, 0x85, 0x2e, 0xee, 0x25, 0x2c, 0x1d, 0x4d, 0xc7, 0xd9, 0x6e,
-	0xfc, 0x6c, 0x41, 0x3c, 0xdf, 0xfa, 0xc9, 0x09, 0xf4, 0x72, 0xfc, 0xf8, 0xc4, 0xc6, 0xff, 0xff,
-	0xcd, 0xd5, 0x05, 0xf0, 0xd0, 0x2c, 0xfa, 0xd0, 0x7d, 0xba, 0x7b, 0x9c, 0x8f, 0xf7, 0x04, 0x00,
-	0xbf, 0x9f, 0xd3, 0x9e, 0x4d, 0x6f, 0xe1, 0xe0, 0xa1, 0x4d, 0xe8, 0x05, 0xdd, 0x97, 0x2e, 0x50,
-	0x5c, 0x43, 0x44, 0xb5, 0x38, 0xfc, 0x7d, 0x6d, 0x7b, 0xf7, 0xe9, 0x9f, 0x01, 0x42, 0x76, 0xb3,
-	0x04, 0x8e, 0xb5, 0xcd, 0xd4, 0xc6, 0xc8, 0xc6, 0x6f, 0x2a, 0xd9, 0x38, 0x99, 0xad, 0xac, 0xab,
-	0x8b, 0x59, 0xb4, 0x68, 0x97, 0x25, 0x7b, 0xe3, 0x94, 0xfc, 0xcd, 0x4f, 0x00, 0x00, 0x00, 0xff,
-	0xff, 0x77, 0x4c, 0x62, 0x78, 0x88, 0x01, 0x00, 0x00,
+	// 374 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x6c, 0x52, 0xdd, 0xca, 0xd3, 0x40,
+	0x10, 0x75, 0xdb, 0x66, 0xdb, 0x4e, 0x6a, 0xad, 0x8b, 0x48, 0x10, 0x7f, 0x42, 0x40, 0x08, 0x0a,
+	0x45, 0x52, 0x2f, 0xbd, 0x29, 0x25, 0xed, 0x8d, 0x42, 0x89, 0x0f, 0x50, 0xd6, 0x64, 0xb0, 0x0b,
+	0x9b, 0x6c, 0xd8, 0x5d, 0x84, 0xbc, 0x94, 0xcf, 0xe0, 0xa3, 0x49, 0xb2, 0x1b, 0xeb, 0x47, 0xbf,
+	0xbb, 0x99, 0x33, 0x73, 0x76, 0x66, 0xce, 0x59, 0x08, 0xaf, 0x28, 0xa5, 0xda, 0xb6, 0x5a, 0x59,
+	0xc5, 0x16, 0xa5, 0x6a, 0xac, 0xe6, 0xa5, 0x4d, 0x5e, 0x03, 0x3d, 0x0a, 0x69, 0x51, 0x33, 0x06,
+	0xb3, 0x86, 0xd7, 0x18, 0x91, 0x98, 0xa4, 0xcb, 0x62, 0x88, 0x93, 0x3f, 0x04, 0xe8, 0x19, 0xb5,
+	0x51, 0x0d, 0x5b, 0xc3, 0x44, 0x54, 0xbe, 0x38, 0x11, 0xd5, 0xbf, 0xf6, 0xc9, 0xad, 0x9d, 0xbd,
+	0x87, 0x00, 0x6b, 0x2e, 0x64, 0x34, 0x8d, 0xa7, 0x69, 0x98, 0x3d, 0xdb, 0x8e, 0x63, 0xb6, 0x79,
+	0x0f, 0x17, 0xae, 0xca, 0x5e, 0x40, 0xd0, 0x5e, 0x55, 0x83, 0xd1, 0x6c, 0xe0, 0xba, 0x84, 0x7d,
+	0x84, 0x39, 0xaf, 0x2a, 0x8d, 0xc6, 0x44, 0x41, 0x4c, 0xd2, 0x30, 0x7b, 0x7e, 0xa3, 0xef, 0x5d,
+	0xa1, 0x18, 0x3b, 0x58, 0x0a, 0xf4, 0x27, 0x36, 0x15, 0xea, 0x88, 0xc6, 0x24, 0x5d, 0x67, 0x9b,
+	0x5b, 0xef, 0x69, 0xc0, 0x0b, 0x5f, 0x4f, 0xe6, 0x10, 0xe4, 0x75, 0x6b, 0xbb, 0xe4, 0x4b, 0x1f,
+	0xf8, 0xf1, 0x6e, 0x4b, 0x77, 0x8c, 0x5f, 0xea, 0x0d, 0x80, 0x30, 0x97, 0x56, 0x8b, 0x9a, 0xeb,
+	0x6e, 0xb8, 0x6a, 0x51, 0x2c, 0x85, 0x39, 0x3b, 0x20, 0x91, 0x30, 0xf7, 0x4b, 0xb0, 0x97, 0x40,
+	0x8d, 0xd5, 0x88, 0xd6, 0x3f, 0xe0, 0xb3, 0x5e, 0x91, 0x52, 0xd8, 0x6e, 0x54, 0xa4, 0x8f, 0xfb,
+	0x59, 0xc6, 0x72, 0x8b, 0xd1, 0xd4, 0xcd, 0x1a, 0x12, 0xf6, 0x0e, 0xc2, 0x56, 0x19, 0xcb, 0xe5,
+	0xa5, 0x54, 0xd5, 0x28, 0x03, 0x38, 0xe8, 0xa0, 0x2a, 0xfc, 0xf0, 0x16, 0xa8, 0x3b, 0x83, 0x2d,
+	0x60, 0xf6, 0x6d, 0xff, 0x35, 0xdf, 0x3c, 0x61, 0x00, 0xf4, 0x98, 0x0f, 0x31, 0xc9, 0x7e, 0x13,
+	0x78, 0xea, 0x7c, 0xf9, 0x8e, 0xfa, 0x97, 0x28, 0x91, 0x65, 0xb0, 0x3a, 0x68, 0xe4, 0x16, 0xbd,
+	0x5d, 0xff, 0x09, 0xe2, 0x90, 0x57, 0x77, 0x08, 0xfb, 0x0c, 0x2b, 0xe7, 0xfd, 0x3d, 0xc7, 0xe1,
+	0xf7, 0x9c, 0x4f, 0x84, 0xed, 0x60, 0x75, 0x42, 0xbb, 0x97, 0xd2, 0xb3, 0x1e, 0xb8, 0xdc, 0xda,
+	0xee, 0x31, 0xd2, 0x0f, 0x3a, 0xfc, 0xbb, 0xdd, 0xdf, 0x00, 0x00, 0x00, 0xff, 0xff, 0xcc, 0x7e,
+	0x1e, 0x5a, 0x86, 0x02, 0x00, 0x00,
 }

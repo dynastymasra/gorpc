@@ -6,10 +6,14 @@ import (
 	"log"
 	"net"
 
+	"strings"
+
 	"google.golang.org/grpc"
 )
 
-type server struct{}
+type server struct {
+	persons []*contract.Person
+}
 
 func main() {
 	listen, err := net.Listen("tcp", "localhost:8080")
@@ -18,21 +22,38 @@ func main() {
 	}
 
 	serve := grpc.NewServer()
-	contract.RegisterHelloServiceServer(serve, &server{})
+	contract.RegisterPersonServiceServer(serve, &server{})
 
 	log.Println("Server is running......")
 
 	serve.Serve(listen)
 }
 
-func (s *server) Hello(ctx context.Context, in *contract.Request) (*contract.Person, error) {
-	return &contract.Person{
-		Id:         "1",
-		FirstName:  "Awal",
-		MiddleName: "Tengah",
-		LastName:   "Akhir",
-		Email:      "dynastymasra@gmail.com",
-		Phone:      "0987654321",
-		Gender:     contract.Gender_MALE,
-	}, nil
+func (s *server) CreatePerson(ctx context.Context, person *contract.Person) (*contract.Person, error) {
+	s.persons = append(s.persons, person)
+	return person, nil
+}
+
+func (s *server) FilterPerson(filter *contract.Filter, stream contract.PersonService_FilterPersonServer) error {
+	for _, person := range s.persons {
+		if !strings.Contains(person.Name, filter.Name) {
+			continue
+		}
+
+		if err := stream.Send(person); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (s *server) GetAllPerson(empty *contract.Empty, stream contract.PersonService_GetAllPersonServer) error {
+	for _, person := range s.persons {
+		if err := stream.Send(person); err != nil {
+			return err
+		}
+	}
+
+	return nil
 }
